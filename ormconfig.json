@@ -1,0 +1,15 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "docker",
+  "database": "voltbras",
+  "synchronize": true,
+  "logging": true,
+  "entities": ["src/entities/*.ts"],
+  "migrations": ["src/infra/db/*.ts"],
+  "cli": {
+    "migrationsDir": "src/infra/db/migrations"
+  }
+}
