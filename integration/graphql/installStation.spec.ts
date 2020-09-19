@@ -1,7 +1,7 @@
 import { createTestClient } from "apollo-server-testing";
-import { createConnection, getConnection } from "typeorm";
-import Station from "../../src/entities/Station";
+import { getConnection } from "typeorm";
 import { createServer } from "../../src/server";
+import { createTestConnection } from "../utils/database";
 
 const INSTALL_STATION = `
   mutation InstallStation($planetName: String!) {
@@ -15,13 +15,7 @@ const INSTALL_STATION = `
 
 describe('installStation', () => {
   beforeAll(async() => {
-    await createConnection({
-      type: 'sqlite',
-      database: 'database.sqlite',
-      synchronize: true,
-      logging: false,
-      entities: [Station],
-    });
+    await createTestConnection();
   });
 
   afterAll(async() => {

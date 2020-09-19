@@ -6,7 +6,7 @@
   "password": "docker",
   "database": "voltbras",
   "synchronize": true,
-  "logging": true,
+  "logging": false,
   "entities": ["src/entities/*.ts"],
   "migrations": ["src/infra/db/*.ts"],
   "cli": {
