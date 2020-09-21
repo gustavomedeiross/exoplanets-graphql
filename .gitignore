@@ -107,6 +107,9 @@ dist
 # sqlite 
 database.sqlite
 
+# Docker
+.docker
+
 # TernJS port file
 .tern-port
 
