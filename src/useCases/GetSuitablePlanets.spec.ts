@@ -6,7 +6,6 @@ let fakePlanetGateway: FakePlanetGateway;
 let fakeStationGateway: FakeStationGateway;
 let sut: GetSuitablePlanets;
 
-// TODO improve the tests readability
 describe('GetSuitablePlanets', () => {
   beforeEach(() => {
     fakePlanetGateway = new FakePlanetGateway();
@@ -62,5 +61,17 @@ describe('GetSuitablePlanets', () => {
     expect(response.some(p => p.name !== 'Planet One')).toBeFalsy();
   });
   
-  // TODO test if hasStation is working
+  it("should return hasStation true when the planet has a station", async () => {
+    jest.spyOn(fakePlanetGateway, 'all').mockResolvedValueOnce([
+      {
+        name: 'Planet One',
+        mass: { unit: 'M_jup', value: 26 }
+      },
+    ]);
+
+    fakeStationGateway.create('Planet One');
+
+    const response = await sut.run();
+    expect(response[0].hasStation).toBeTruthy();
+  });
 }); 

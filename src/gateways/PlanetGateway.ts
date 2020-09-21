@@ -1,4 +1,3 @@
-// TODO change this name
 export type GatewayPlanet = {
   name: string;
   mass?: {

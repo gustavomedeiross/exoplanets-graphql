@@ -1,14 +1,13 @@
-import { Arg, Field, InputType, Mutation, Resolver } from "type-graphql";
-import Station from "../entities/Station";
-import StationGatewayImpl from "../gateways/impl/StationGatewayImpl";
+import { Arg, Mutation, Resolver } from "type-graphql";
 import InstallStation from "../useCases/InstallStation";
+import Station from "../entities/Station";
+import { stationGateway } from "../gateways/impl";
 
 @Resolver(of => Station)
 export default class StationResolver {
   @Mutation(returns => Station)
-  // TODO get repository through context
   async installStation(@Arg('planetName') planetName: string): Promise<Station> {
-    const useCase = new InstallStation(new StationGatewayImpl());
+    const useCase = new InstallStation(stationGateway);
     return await useCase.run({ planetName });
   }
 }

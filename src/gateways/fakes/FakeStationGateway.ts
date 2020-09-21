@@ -1,12 +1,13 @@
-import { stat } from "fs";
 import Station from "../../entities/Station";
 import StationGateway from "../StationGateway";
 
 export default class FakeStationGateway implements StationGateway {
   private stations: Station[] = [];
 
-  async findStationByPlanetName(planetName: string): Promise<Station | undefined> {
-    return this.stations.find(s => s.planetName === planetName);
+  async findStationByPlanetName(
+    planetName: string
+  ): Promise<Station | undefined> {
+    return this.stations.find((s) => s.planetName === planetName);
   }
 
   async create(planetName: string): Promise<Station> {
@@ -16,3 +17,4 @@ export default class FakeStationGateway implements StationGateway {
     return station;
   }
 }
+

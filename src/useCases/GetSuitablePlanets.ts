@@ -17,9 +17,7 @@ export default class GetSuitablePlanets {
   }
 
   private isSuitable(planet: GatewayPlanet) {
-    if (planet.mass) 
-      return planet.mass?.value > 25 && planet.mass?.unit === 'M_jup';
-    return false;
+    return planet.mass && planet.mass?.value > 25 && planet.mass?.unit === 'M_jup';
   }
 
   private async map(planet: GatewayPlanet): Promise<Planet> {

@@ -13,9 +13,6 @@ export default class InstallStation {
     this.stationGateway = stationGateway;
   }
 
-  // TODO add validation
-  // 1. station wasn't already created on that planet
-  // 2. planet exists
   async run({ planetName }: Request): Promise<Station> {
     return this.stationGateway.create(planetName);
   }
