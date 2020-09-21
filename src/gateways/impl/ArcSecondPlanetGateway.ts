@@ -11,12 +11,13 @@ export default class ArcSecondPlanetGateway extends RESTDataSource implements Pl
     this.baseURL = 'https://api.arcsecond.io';
   }
 
+  // TODO parallel
   async all(): Promise<GatewayPlanet[]> {
-    const planets = [];
+    const promises = [];
     for(let i=1; i<=10; i++)
-     planets.push(await this.paginate(i));
+     promises.push(this.paginate(i));
 
-    return planets.flat();
+     return (await Promise.all(promises)).flat();
   }
 
   private async paginate(page: number): Promise<GatewayPlanet[]> {
