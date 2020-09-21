@@ -1,5 +1,5 @@
 import Planet from "../entities/Planet";
-import { PlanetGateway } from "../gateways/PlanetGateway";
+import { GatewayPlanet, PlanetGateway } from "../gateways/PlanetGateway";
 import StationGateway from "../gateways/StationGateway";
 
 export default class GetSuitablePlanets {
@@ -11,22 +11,26 @@ export default class GetSuitablePlanets {
   public async run(): Promise<Planet[]> {
     const apiResponse = await this.planetGateway.all();
 
-    const suitablePlanets = apiResponse
-    .filter(p => p.mass && p.mass.value)
-    .filter(p => {
-      return p.mass?.unit === 'M_jup' && p.mass.value > 25;
-    });
+    const suitablePlanets = apiResponse.filter(p => this.isSuitable(p));
 
-    const map = async(p: any) => {
-      const hasStation = !!(await this.stationGateway.findStationByPlanetName(p.name));
+    return Promise.all(suitablePlanets.map(p => this.map(p)));
+  }
 
+  private isSuitable(planet: GatewayPlanet) {
+    if (planet.mass) 
+      return planet.mass?.value > 25 && planet.mass?.unit === 'M_jup';
+    return false;
+  }
+
+  private async map(planet: GatewayPlanet): Promise<Planet> {
       return new Planet({
-        name: p.name,
-        mass: p.mass.value,
-        hasStation,
+        name: planet.name,
+        mass: planet.mass!.value,
+        hasStation: (await this.hasStation(planet.name)),
       });
-    };
+  }
 
-    return Promise.all(suitablePlanets.map((p: any) => map(p)));
+  private async hasStation(planetName: string): Promise<boolean> {
+    return Boolean(await this.stationGateway.findStationByPlanetName(planetName));
   }
 }
